@@ -22,6 +22,21 @@
 `input`是交易时的`data`（详见 https://github.com/ethereum/wiki/wiki/JavaScript-API#web3ethsendtransaction)。
 普通交易时`data`是附带的二进制信息，创建合约时`data`为合约代码。
 
+参照路印的实现 data 经过 web3swift对实体encode得到。而这个实体有方法名（string），输入参数（array），输出参数（arry）三个属性 实体构造分为 以下几种情况得到
+
+- convert weth -> eth  
+name: "withdraw", inputParameters: [amount] //amount为转换eth或者weth金额
+- convert eth -> weth  
+name: "deposit", inputParameters: []
+- 创建合约  
+name: "approve", inputParameters: [delegateAddress, tokenAmount] //delegateAddress: loorping delegate address，tokenAmount为转账金额
+- 取消合约 （用于取消订单）  
+name: "cancelAllOrdersByTradingPair", inputParameters: [tokenA, tokenB, timestamp] // tokenA tokenB 为代币的缩写
+- 转帐 eth  
+不需要实体encode得到data，直接由字符串''0x'转成二进制
+- 转账非eth transfer tokens  
+name: "transfer", inputParameters: [toAddress, tokenAmount]// 收款地址，转账金额
+
 #### `v`、 `r`、 `s`
 
 ##### 组装待签名消息
@@ -105,5 +120,5 @@
 ```
 
 ### 返回值
-- String - txHash.
+- String - txHash和 SignatureData实体.
 ### 调用举例
