@@ -29,4 +29,4 @@ Alice用`13.41640786`个A买到4个B，比期望的15个给的少。
 
 旷工如果选择LRC手续费，则无需操作；
 如果选择分润比例，则必须把LRC手续费等量的资产返还给交易发起者，因此只有按分润比例方式计算出的手续费大于LRC手续费的**2倍**，旷工才会选择后者。
-![路印收费模型](/loopring_fee_model.png)
+![Loopring Fee Model](loopring_fee_model.png)
