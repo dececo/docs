@@ -19,3 +19,4 @@
 
 ## Loopring 协议解读
 [API解读](/loopring/api.md)
+[路印手续费模型（Loopring’s Fee Model）介绍](/loopring/loopring_fee_model.md)
