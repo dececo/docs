@@ -14,7 +14,10 @@
 - Token 源代码：https://etherscan.io/address/0xf72da6e99b864e26e3a386f2cc6022882ecb1125#code
 
 ## 项目方团队
+
 - dechain.io
+- 白皮书地址: http://dechain.io/file/DEC-whitepaper-1.1.pdf
+
 ## 社群信息
 
 - telegram: https://t.me/decToken
