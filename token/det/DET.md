@@ -13,6 +13,13 @@
 - 发布日期: 2018-06-28
 - Token 源代码：https://etherscan.io/address/0xf72da6e99b864e26e3a386f2cc6022882ecb1125#code
 
+## Token 分配方案
+
+* 基金会：50%，5亿
+* 私募：20%，2亿
+* 机构：20%，2亿
+* 团队：10%，1亿
+
 ## 项目方团队
 
 - dechain.io
