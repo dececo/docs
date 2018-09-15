@@ -29,6 +29,10 @@
 
 - 路印：https://loopr.loopring.io/#/trade/DET-WETH
 
+## 钱包
+
+- DStar iOS版：https://www.pgyer.com/dec-dstar-ios
+
 ## 社群信息
 
 - telegram: https://t.me/decToken
