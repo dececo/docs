@@ -25,6 +25,10 @@
 - dechain.io
 - 白皮书地址: http://dechain.io/file/DEC-whitepaper-1.1.pdf
 
+## 交易所
+
+- 路印：https://loopr.loopring.io/#/trade/DET-WETH
+
 ## 社群信息
 
 - telegram: https://t.me/decToken
