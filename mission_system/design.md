@@ -13,6 +13,7 @@
 ### 3. 名词解释
 
 * **付费**: 该文档中所说的付费，通常指的是支付 [DET](https://github.com/dececo/docs/blob/master/token/det/DET.md)。
+* **解决方案**: 对应任务的系列解决方法或完成后的产出物，如教程或者软件包。
 * **ABI**: Application Binary Interface，应用二进制接口，以太坊智能合约编译时会随二进制一起提供。
 * **MissionID**: 全局唯一的任务ID，由[任务管理平台](#任务管理平台)在任务上传时生成。
 * **SolutionID**: 全局唯一的解决方案ID，由[任务管理平台](#任务管理平台)在任务完成时生成。
@@ -24,52 +25,117 @@
 
 ## 二．总体设计
 
-付费任务系统是一个基于区块链的分布式系统，由[智能合约](#智能合约)，[任务管理平台](#任务管理平台)、[任务展示平台](#任务展示平台)、[任务鉴定平台](#任务鉴定平台)、[任务鉴定平台](#任务鉴定平台)构成。
+付费任务系统是一个基于区块链的分布式系统，运行于多种兼容的云计算平台上，并且可以平行扩展。
 
-- **[智能合约](#任务鉴定平台)**：系统交易部分，会全部上链，做到公开透明。因此交易逻辑会由多组智能合约协同完成。
-- **[任务管理平台](#任务管理平台)**：托管用户上传的任务说明和后续的交付物。是智能合约最主要的驱动方。
-- **[任务展示平台](#任务管理平台)**：展示现有任务列表，以及一些较为简单的互动，如点赞、关注等，包括但不限于客户端、网页等。
-- **[任务鉴定平台](#任务管理平台)**：对任务完成与否进行鉴定。一般不需要，只有交易双方出现分歧时才引入。
-- **[任务撮合系统](#任务管理平台)**：对任务进行撮合并推送到相关用户。因前期采用广播模式，该模块不需要实现。
+使用该软件系统，可以实现发布开发任务、结算佣金、争议解决等协作任务。
 
-<img src='http://g.gravizo.com/svg?
+### 1. 需求概述
+
+- **发布开发任务**：用户可以在系统内发布自己的付费任务，指定一定数额的 [DET](https://github.com/dececo/docs/blob/master/token/det/DET.md) 作为回报，该任务应该被所有人看到；
+- **发布解决方案**：对任务感兴趣的用户，可以留言尝试解决任务，并在完成后提供自己的解决方案；
+- **提起争议诉讼/任务鉴定**：如果付费方（甲方）和方案提供方（乙方）对任务完成结果意见不一致时，可以通过请求第三方鉴定的方式解决争议，类似于法律诉讼；
+- **围绕任务互动**：任务列表是公开的，因此所有用户包括发布者在内，均可以围绕任务进行互动，比如评论、回复评论、点赞等；
+
+### 2. 软件结构
+
+付费任务系统由[智能合约](#智能合约)，[任务管理平台](#任务管理平台)、[任务展示平台](#任务展示平台)、[任务鉴定平台](#任务鉴定平台)、[任务鉴定平台](#任务鉴定平台)构成。
+
+- **[智能合约（Smart Contract）](#智能合约)**：系统交易部分，会全部上链，做到公开透明。因此交易逻辑会由多组智能合约协同完成。
+- **[任务管理平台（Task Engine）](#任务管理平台)**：托管用户上传的任务说明和后续的交付物。是智能合约最主要的驱动方。
+- **[任务展示平台（Task Client）](#任务展示平台)**：展示现有任务列表，以及一些较为简单的互动，如点赞、关注等，包括但不限于客户端、网页等。
+- **[任务鉴定平台（Task Arbitrator）](#任务鉴定平台)**：对任务完成与否进行鉴定。一般不需要，只有交易双方出现分歧时才引入。
+- **[任务撮合系统（Task Matcher）](#任务撮合系统)**：对任务进行撮合并推送到相关用户。因前期采用广播模式，该模块不需要实现。
+
+#### 2.1 发布任务
+
+<img src='https://g.gravizo.com/svg?
 @startuml;
-actor User;
-participant "First Class" as A;
-participant "Second Class" as B;
-participant "Last Class" as C;
-User -> A: DoWork;
+actor Publisher as User;
+participant "Client" as A;
+participant "Engine" as B;
+participant "Smart Contract" as C;
+User -> A: Publish Task;
 activate A;
-A -> B: Create Request;
+A -> B: Upload Task;
 activate B;
-B -> C: DoWork;
+B -> C: Send DET;
 activate C;
-C --> B: WorkDone;
-destroy C;
-B --> A: Request Created;
+C --> B: Return TxHash;
+B --> A: Task Created;
+A --> User: Task Created;
+deactivate A;
+C -> C: Confirm Transaction;
+deactivate C;
+B -> C: Is TxHash Confirmed?;
+activate C;
+C --> B: Confirmed;
+deactivate C;
+B -> A: Message: "Task Published";
 deactivate B;
-A --> User: Done;
+activate A;
+A -> User: Informed("Published");
 deactivate A;
 @enduml
 '/>
 
+#### 2.2 发布解决方案
+
 <img src='https://g.gravizo.com/svg?
- digraph G {
-   main -> parse -> execute;
-   main -> init;
-   main -> cleanup;
-   execute -> make_string;
-   execute -> printf
-   init -> make_string;
-   main -> printf;
-   execute -> compare;
- }
+@startuml;
+actor Solver as User;
+participant "Client" as A;
+participant "Engine" as B;
+participant "Smart Contract" as C;
+User -> A: Publish Solution;
+activate A;
+A -> B: Upload Solution;
+activate B;
+B --> A: Solution Published;
+deactivate B;
+A --> User: Solution Published;
+@enduml
 '/>
 
-### 1. 需求概述
+注意：
+**此时并未发生资产转移**。
 
-### 2. 软件结构
+#### 2.3 确认解决方案
 
+<img src='https://g.gravizo.com/svg?
+@startuml;
+actor Publisher as User;
+participant "Client" as A;
+participant "Engine" as B;
+participant "Smart Contract" as C;
+activate B;
+B -> A: Solution Uploaded;
+deactivate B;
+activate A;
+A -> User: Message;
+deactivate A;
+User -> A: Confirm Solution;
+activate A;
+A -> B: Confirm Solution;
+activate B;
+B -> C: Send DET to Solver;
+activate C;
+C --> B: Return TxHash;
+B --> A: Solution Confirmed;
+A --> User: Solution Confirmed;
+deactivate A;
+C -> C: Confirm Transaction;
+deactivate C;
+B -> C: Is TxHash Confirmed?;
+activate C;
+C --> B: Confirmed;
+deactivate C;
+B -> A: Message: "DET Payed";
+deactivate B;
+activate A;
+A -> User: Informed("Payed");
+deactivate A;
+@enduml
+'/>
 
 ## 三．详细设计
 
