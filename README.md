@@ -12,8 +12,8 @@
 ## 钱包 Wallet
 
 ### 使用到的路印SDK
-- iOS SDK - https://github.com/Loopring/loopr-ios-sdk
-- Android SDK - https://github.com/Loopring/loopr-android-sdk
+- iOS SDK - [https://github.com/Loopring/loopr-ios-sdk](https://github.com/Loopring/loopr-ios-sdk)
+- Android SDK - [https://github.com/Loopring/loopr-android-sdk](https://github.com/Loopring/loopr-android-sdk)
 
 ## 交易所 Exchange
 

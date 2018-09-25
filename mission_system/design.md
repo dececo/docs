@@ -19,8 +19,8 @@
 
 ### 4. 参考资料
 
-* **以太坊(ethereum)**: https://ethereum.org/
-* **Oraclize**: https://docs.oraclize.it/
+* **以太坊(ethereum)**: [https://ethereum.org/](https://ethereum.org/)
+* **Oraclize**: [https://docs.oraclize.it/](https://docs.oraclize.it/)
 
 ## 二．总体设计
 
@@ -31,6 +31,40 @@
 - **[任务展示平台](#任务管理平台)**：展示现有任务列表，以及一些较为简单的互动，如点赞、关注等，包括但不限于客户端、网页等。
 - **[任务鉴定平台](#任务管理平台)**：对任务完成与否进行鉴定。一般不需要，只有交易双方出现分歧时才引入。
 - **[任务撮合系统](#任务管理平台)**：对任务进行撮合并推送到相关用户。因前期采用广播模式，该模块不需要实现。
+
+<img src='http://g.gravizo.com/svg?
+@startuml;
+actor User;
+participant "First Class" as A;
+participant "Second Class" as B;
+participant "Last Class" as C;
+User -> A: DoWork;
+activate A;
+A -> B: Create Request;
+activate B;
+B -> C: DoWork;
+activate C;
+C --> B: WorkDone;
+destroy C;
+B --> A: Request Created;
+deactivate B;
+A --> User: Done;
+deactivate A;
+@enduml
+'/>
+
+<img src='https://g.gravizo.com/svg?
+ digraph G {
+   main -> parse -> execute;
+   main -> init;
+   main -> cleanup;
+   execute -> make_string;
+   execute -> printf
+   init -> make_string;
+   main -> printf;
+   execute -> compare;
+ }
+'/>
 
 ### 1. 需求概述
 
