@@ -48,6 +48,10 @@
 
 #### 2.1 发布任务
 
+用户发起任务时，使用任务展示平台客户端（PC网页、iOS/安卓客户端）上传相应的说明和必要的文件，任务管理平台验证后，调用智能合约抵押发布人的对应资产，并在成功后通知发布人。
+
+##### 发布任务时序图
+
 <img src='https://g.gravizo.com/svg?
 @startuml;
 actor Publisher as User;
@@ -80,6 +84,10 @@ deactivate A;
 
 #### 2.2 发布解决方案
 
+任务发布后，允许任何人浏览访问，感兴趣的用户可能会尝试提交解决方案并期望获得对应报酬。解决者使用任务管理平台上传解决方案说明和必要的文件，任务管理平台验证完整性，获得通过后会得到通知。
+
+##### 发布解决方案时序图
+
 <img src='https://g.gravizo.com/svg?
 @startuml;
 actor Solver as User;
@@ -101,9 +109,14 @@ A --> User: Solution Published;
 
 #### 2.3 确认解决方案
 
+如果任务发布人对解决方案较为满意，会直接“确认”解决方案，此时任务管理平台会尝试调用智能合约转账对应报酬到解决方案提供方帐户。同样的，成功后双方会获得通知。
+
+##### 确认解决方案时序图
+
 <img src='https://g.gravizo.com/svg?
 @startuml;
 actor Publisher as User;
+actor Solver as User2;
 participant "Client" as A;
 participant "Engine" as B;
 participant "Smart Contract" as C;
@@ -111,8 +124,9 @@ activate B;
 B -> A: Solution Uploaded;
 deactivate B;
 activate A;
-A -> User: Message;
+A -> User: Message: "Solution Uploaded";
 deactivate A;
+== Solution Confirming ==;
 User -> A: Confirm Solution;
 activate A;
 A -> B: Confirm Solution;
@@ -133,6 +147,57 @@ B -> A: Message: "DET Payed";
 deactivate B;
 activate A;
 A -> User: Informed("Payed");
+A -> User2: Informed("Payed");
+deactivate A;
+@enduml
+'/>
+
+#### 2.4 请求鉴定
+
+如果发布者不满意解决方案，或者希望获得专业意见，可以通过请求鉴定的方式，获得任务鉴定平台的专业意见，并按裁定的任务完成比例支付报酬。
+
+##### 请求鉴定时序图
+
+<img src='https://g.gravizo.com/svg?
+@startuml;
+actor Publisher as User;
+actor Solver as User2;
+participant "Client" as A;
+participant "Engine" as B;
+participant "Arbitrator" as D;
+participant "Smart Contract" as C;
+activate B;
+B -> A: Solution \nUploaded;
+deactivate B;
+activate A;
+A -> User: Message: "Solution Uploaded";
+deactivate A;
+User -> User: Not Satisfied;
+== Arbitration ==;
+User -> A: Request Arbitration;
+activate A;
+A -> B: Request \nArbitration;
+activate B;
+B -> D: Request \nArbitration;
+activate D;
+B -> A: Arbitration \nSend;
+deactivate B;
+A -> User: Arbitration Send;
+A -> User2: Arbitration Send;
+deactivate A;
+D -> D: Process \nArbitration;
+D -> C: Arbitration \nCompleted;
+activate C;
+C -> C: Transaction \nConfirmed;
+deactivate C;
+D -> B: Arbitration \nCompleted;
+deactivate D;
+activate B;
+B -> A: Arbitration \nCompleted;
+deactivate B;
+activate A;
+A -> User: Message: "Arbitration Completed";
+A -> User2: Message: \n"Arbitration Completed";
 deactivate A;
 @enduml
 '/>
