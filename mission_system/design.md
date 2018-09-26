@@ -46,6 +46,36 @@
 - **[任务鉴定平台（Task Arbitrator）](#任务鉴定平台)**：对任务完成与否进行鉴定。一般不需要，只有交易双方出现分歧时才引入。
 - **[任务撮合系统（Task Matcher）](#任务撮合系统)**：对任务进行撮合并推送到相关用户。因前期采用广播模式，该模块不需要实现。
 
+各组件及交互可见下图。
+
+<img src='https://g.gravizo.com/svg?
+cloud "Ethereum" {
+        [Smart Contract];
+};
+node "AWS EC2" {
+        [Engine] -> [Arbitrator];
+        [Matcher] -left-> [Engine];
+};
+[Engine] ..> [Smart Contract]: Asynchronous Call;
+[Smart Contract] ..> [Arbitrator]: Oraclize \nAsynchronous Call;
+package "Client" {
+        [Browser];
+        [iOS];
+        [Android];
+};
+[Browser] ..> [Engine];
+[iOS] ..> [Engine];
+[Android] ..> [Engine];
+database "AWS RDS" {
+        [MySQL];
+};
+[Engine] --> [MySQL];
+database "AWS ElastiCache" {
+        [Redis];
+};
+[Engine] --> [Redis];
+'/>
+
 #### 2.1 发布任务
 
 用户发起任务时，使用任务展示平台客户端（PC网页、iOS/安卓客户端）上传相应的说明和必要的文件，任务管理平台验证后，调用智能合约抵押发布人的对应资产，并在成功后通知发布人。
@@ -257,7 +287,7 @@ deactivate A;
 
 ### 任务管理平台
 
-任务管理平台托管用户上传的任务说明和后续的交付物。是智能合约最主要的驱动方。
+任务管理平台托管用户上传的任务说明和后续的解决方案交付物。是智能合约最主要的驱动方。数据存储在 AWS RDS 数据库中，兼容 MySQL。
 
 #### 1．功能
 
@@ -405,22 +435,32 @@ deactivate A;
 #### 7．接口
 
 ##### **鉴定结果查询接口**
-标准 JSONAPI 接口，支持 HTTPS 协议。URL路径中推荐含有网络和版本，如`www.identify.com/rinkeby/v1/verify`。
+标准 [JSON-RPC](https://www.jsonrpc.org/specification) 接口，支持 HTTPS 协议，该接口主要供智能合约通过 Oraclize 调用。URL 路径中推荐含有网络和版本，方便针对不同合约版本进行加密，如`https://www.identify.com/rinkeby/v1/verify`。
 
 请求参数如下：
   - `solution_id`: 要查询解决方案ID
-  - `publisher`: 任务发布者的公钥地址
-  - `proposer`: 任务解决人/解决方案提议人
 
 返回参数如下：
 - `solution_id`: 要查询解决方案ID
-- `publisher`: 任务发布者的公钥地址
-- `proposer`: 任务解决人/解决方案提议人公钥地址
 - `completed`: 是否完成，完成: `true`, 未完成: `false`
 - `percentage`: 完成百分比，`0-100`的整数，比如`30`表示该任务完成了`30%``
 
 注意：
 **在合约调用中该URL地址加密**。
+
+以下是调用示例：
+```bash
+// Request
+curl -s -H 'Content-Type: application/json' -X POST --data '{"jsonrpc":"2.0","method":"dec_verify","params":[{"solution_id":"4d2be90d-24da-4857-8590-a9d3233c888d"}],"id":67}' 'https://www.identify.com/rinkeby/v1/verify'
+
+// Result
+{
+  "id":67,
+  "jsonrpc": "2.0",
+  "completed": true,
+  "percentage": 100
+}
+```
 
 #### 8．存储分配
 
