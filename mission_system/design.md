@@ -269,7 +269,41 @@ deactivate A;
 
 合约代码样例如下。
 
-<script src="https://gist.github.com/dececo/507ed27fde7fe2063d3644d30dd93d72.js"></script>
+```solidity
+// OpenTask.sol
+pragma solidity ^0.4.25;
+import "github.com/dececo/dechainio/contracts/DET.sol";
+
+contract OpenTask  {
+
+    DET det;
+    address owner;
+
+    constructor(address initialDETAddress, address initialOwner) public {
+        det = DET(initialDETAddress);
+        owner = initialOwner;
+    }
+
+    function updateDETAddress(address newDETAddress) public onlyOwner {
+    }
+
+    function updateOwner(address newOwner) public onlyOwner {
+    }
+
+    function publish(string missionID, uint amountInWei) public {
+    }
+
+    function solve(string solutionID) public {
+    }
+
+    function confirmSolution(string solutionID) public {
+    }
+
+    function confirmArbitration(string solutionID, string arbitration) public {
+    }
+
+}
+```
 
 #### 7．接口
 
