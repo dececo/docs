@@ -265,15 +265,19 @@ deactivate A;
 
 #### 6．程序逻辑
 
-待补充。
+以太坊智能合约代码风格采用 [Solidity 官方推荐风格](https://solidity.readthedocs.io/en/v0.4.25/style-guide.html#)。
+
+合约代码样例如下。
+
+<script src="https://gist.github.com/dececo/507ed27fde7fe2063d3644d30dd93d72.js"></script>
 
 #### 7．接口
 
-待补充，最后会以 ABI 形式确认。
+见示例代码。
 
 #### 8．存储分配
 
-无
+EVM 内部存储分配取决于具体实现，不使用任何以太坊外部存储。
 
 #### 9．限制条件
 
@@ -283,6 +287,7 @@ deactivate A;
 
 1. 完成任务后才能取走相应比例的佣金；
 2. 任务发起后资金抵押，任务取消前或完成前，资金不能移动；
+3. 通过其他合约调用`OpenTask`，不会改变现金流走向；
 更多要点详见功能。
 
 ### 任务管理平台
