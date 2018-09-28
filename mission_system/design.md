@@ -245,7 +245,7 @@ deactivate A;
 1. 向指定地址转账指定数额的 [DET](https://github.com/dececo/docs/blob/master/token/det/DET.md)，可用于指定任务的抵押或者支付；
 2. 获取指定任务的鉴定结果（是否胜诉及可获得财产比例）；
 3. 从系统账户取回 [DET](https://github.com/dececo/docs/blob/master/token/det/DET.md)，可用于鉴定胜诉时取回资产；
-4.
+4. 核心数据使用对方公钥加密（ ECDSA 算法），拥有私钥才能解密查看；
 
 #### 2．性能
 
