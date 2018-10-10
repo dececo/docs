@@ -1,4 +1,4 @@
-# Dechain Documentation
+# DEChain Documentation
 ## 白皮书 Whitepaper
 * [中文版](/whitepaper/DEC-whitepaper-zh.pdf)
 
@@ -8,6 +8,11 @@
 |:---:|:---:|:---|
 |主网|0xF72DA6E99b864e26e3a386F2Cc6022882eCB1125|[Decentralized Ecosystem Token](https://etherscan.io/token/0xf72da6e99b864e26e3a386f2cc6022882ecb1125)|
 |Rinkeby|0x04B703784D3d82B5d5E4C103d0bDb80169653f48|[Decentralized Ecosystem Token](https://rinkeby.etherscan.io/address/0x04B703784D3d82B5d5E4C103d0bDb80169653f48)|
+
+## 付费任务系统
+
+- [付费任务系统设计文档](/mission_system/design.md)
+- [常见问题](/mission_system/faq.md)
 
 ## 钱包 Wallet
 
@@ -22,3 +27,12 @@
 [API解读](/loopring/api.md)
 
 [路印手续费模型（Loopring’s Fee Model）介绍](/loopring/loopring_fee_model.md)
+
+## 关于本文档
+
+本文档本地修改方法可以参考[如何本地运行 Jekyll](https://help.github.com/articles/setting-up-your-github-pages-site-locally-with-jekyll/)，第一次成功后，以后只需要启动服务即可本地预览。
+```bash
+bundler exec jekyll serve
+```
+默认地址如屏幕提示，是
+[http://127.0.0.1:4000/](http://127.0.0.1:4000/)
