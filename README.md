@@ -16,6 +16,10 @@
 
 ## 钱包 Wallet
 
+### iOS钱包下载地址
+
+[https://www.pgyer.com/dec-dstar-ios](https://www.pgyer.com/dec-dstar-ios)
+
 ### 使用到的路印SDK
 - iOS SDK - [https://github.com/Loopring/loopr-ios-sdk](https://github.com/Loopring/loopr-ios-sdk)
 - Android SDK - [https://github.com/Loopring/loopr-android-sdk](https://github.com/Loopring/loopr-android-sdk)
