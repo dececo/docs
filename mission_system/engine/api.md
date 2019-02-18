@@ -17,8 +17,10 @@
 ### Example
 ```
 // Request
-curl -s -X POST --data '{"jsonrpc":"2.0","method":"GetPublished","params":[0, 5],"id":"11"}' 'http://localhost:8080/v1/' | jq .
+curl -s -X POST --data '{"jsonrpc":"2.0","method":"GetAllPublished","params":[0, 5],"id":"11"}' 'http://opentask.api.chainpower.io:8080/v1/' | jq .
+```
 
+```json
 // Result
 {
   "id": "11",
@@ -51,7 +53,7 @@ curl -s -X POST --data '{"jsonrpc":"2.0","method":"GetPublished","params":[0, 5]
             "Block": 0,
             "Tx": "",
             "Solution": "m1s1",
-            "Time": "2018-11-16 15:27:23",
+            "Time": "2019-02-13 03:07:03",
             "Status": "accept"
           }
         }
@@ -76,7 +78,7 @@ curl -s -X POST --data '{"jsonrpc":"2.0","method":"GetPublished","params":[0, 5]
             "Block": 0,
             "Tx": "",
             "Solution": "m2s1",
-            "Time": "2018-11-16 15:27:23",
+            "Time": "2019-02-13 03:07:03",
             "Status": "reject"
           }
         },
@@ -92,7 +94,7 @@ curl -s -X POST --data '{"jsonrpc":"2.0","method":"GetPublished","params":[0, 5]
             "Block": 0,
             "Tx": "",
             "Solution": "m2s2",
-            "Time": "2018-11-16 15:27:23",
+            "Time": "2019-02-13 03:07:03",
             "Status": "accept"
           }
         }
@@ -125,7 +127,7 @@ curl -s -X POST --data '{"jsonrpc":"2.0","method":"GetPublished","params":[0, 5]
             "Block": 0,
             "Tx": "",
             "Solution": "m3s1",
-            "Time": "2018-11-16 15:27:23",
+            "Time": "2019-02-13 03:07:03",
             "Status": "reject"
           }
         },
@@ -141,7 +143,7 @@ curl -s -X POST --data '{"jsonrpc":"2.0","method":"GetPublished","params":[0, 5]
             "Block": 0,
             "Tx": "",
             "Solution": "m3s2",
-            "Time": "2018-11-16 15:27:23",
+            "Time": "2019-02-13 03:07:03",
             "Status": "reject"
           }
         }
