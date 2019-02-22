@@ -8,6 +8,7 @@
 |:---:|:---:|:---|
 |主网|0xF72DA6E99b864e26e3a386F2Cc6022882eCB1125|[Decentralized Ecosystem Token](https://etherscan.io/token/0xf72da6e99b864e26e3a386f2cc6022882ecb1125)|
 |Rinkeby|0x04B703784D3d82B5d5E4C103d0bDb80169653f48|[Decentralized Ecosystem Token](https://rinkeby.etherscan.io/address/0x04B703784D3d82B5d5E4C103d0bDb80169653f48)|
+|Kovan | 0x6ffF60A882CE1Cd793dC14261Eec0f0d6A470E21 | [Decentralized Ecosystem Token](https://kovan.etherscan.io/address/0x6fff60a882ce1cd793dc14261eec0f0d6a470e21)|
 
 ## 付费任务系统
 
